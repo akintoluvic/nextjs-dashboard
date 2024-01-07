@@ -20,8 +20,8 @@ export default function EditInvoiceForm({
   customers: CustomerField[];
 }) {
 
-  const updateInvoiceWithId = updateInvoice.bind(null, invoice.id);
   const initialState = {message: null, errors: {}}
+  const updateInvoiceWithId = updateInvoice.bind(null, invoice.id);
   const [state, dispatch] = useFormState(updateInvoiceWithId, initialState)
 
   console.log(state)
@@ -146,6 +146,13 @@ export default function EditInvoiceForm({
               ))}
           </div>
         </fieldset>
+        <div id="submit-error" aria-live="polite" aria-atomic="true">
+            {state.message &&
+                <p className="mt-2 text-sm text-red-500" key={state.message}>
+                  {state.message}
+                </p>
+              }
+          </div>
       </div>
       <div className="mt-6 flex justify-end gap-4">
         <Link
