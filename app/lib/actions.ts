@@ -1,5 +1,8 @@
 'use server';
 import { sql } from '@vercel/postgres';
+import { revalidatePath } from 'next/cache';
+import { redirect } from 'next/dist/server/api-utils';
+import { permanentRedirect } from 'next/navigation';
 import { z } from 'zod';
  
 const FormSchema = z.object({
@@ -31,4 +34,7 @@ export async function createInvoice(formData: FormData) {
     VALUES (${customerId}, ${amountInCents}, ${status}, ${date})
   `;
 
+  revalidatePath('/dashboard/invoices');
+  // error trying to use redirect(307, '/dashboard/invoices');
+  permanentRedirect('/dashboard/invoices');
 }
