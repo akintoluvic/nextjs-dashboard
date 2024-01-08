@@ -68,15 +68,16 @@ export async function createInvoice(prevState: State, formData: FormData) {
 }
 
 // Use Zod to update the expected types
-const UpdateInvoice = FormSchema.omit({ id: true, date: true });
+const UpdateInvoice = FormSchema.omit({ date: true });
  
 // ...
  
-export async function updateInvoice(prevState: State, id: string, formData: FormData) {
+export async function updateInvoice(prevState: State, formData: FormData) {
   const validatedFields = UpdateInvoice.safeParse({
     customerId: formData.get('customerId'),
     amount: formData.get('amount'),
     status: formData.get('status'),
+    id: formData.get('id'),
   });
 
   // If form validation fails, return errors early. Otherwise, continue.
@@ -87,7 +88,7 @@ export async function updateInvoice(prevState: State, id: string, formData: Form
     };
   }
   
-  const { customerId, amount, status } = validatedFields.data;
+  const { customerId, amount, status, id } = validatedFields.data;
   const amountInCents = amount * 100;
 
   try {
